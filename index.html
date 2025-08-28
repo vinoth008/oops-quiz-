@@ -1,284 +1,283 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
+  <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>OOP Concepts Quiz</title>
+  <title>Java OOP Quiz — Multi-user</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.1/normalize.min.css">
   <style>
-    :root{
-      --bg:#0f172a; /* slate-900 */
-      --panel:#111827ee; /* gray-900 */
-      --text:#e5e7eb; /* gray-200 */
-      --muted:#9ca3af; /* gray-400 */
-      --accent:#6366f1; /* indigo-500 */
-      --accent-2:#22d3ee; /* cyan-400 */
-      --good:#22c55e; /* green-500 */
-      --bad:#ef4444; /* red-500 */
-    }
-    *{box-sizing:border-box}
-    body{
-      margin:0; font-family:system-ui,-apple-system,Segoe UI,Roboto,Inter,Helvetica,Arial,sans-serif;
-      background: radial-gradient(1200px 600px at 10% -10%, #1e293b 0%, transparent 70%),
-                  radial-gradient(900px 500px at 110% 10%, #0b1324 0%, transparent 70%),
-                  radial-gradient(700px 500px at 50% 120%, #101828 0%, transparent 70%),
-                  var(--bg);
-      color:var(--text); line-height:1.5;
-    }
-    .container{ max-width:980px; margin:0 auto; padding:32px 16px 64px; }
-    header{ display:flex; align-items:center; gap:16px; margin-bottom:24px; }
-    .logo{ width:44px; height:44px; background:linear-gradient(135deg,var(--accent),var(--accent-2)); border-radius:14px; box-shadow:0 10px 30px #0008; }
-    h1{ font-size:clamp(1.5rem,1.1rem + 2vw,2.4rem); margin:0; letter-spacing:.3px; }
-    .panel{ background:linear-gradient(180deg,#0b1220c0,#0b1220cc); border:1px solid #33415566; border-radius:16px; padding:18px 20px; box-shadow:0 10px 30px #0006; }
-    .row{ display:flex; flex-wrap:wrap; gap:16px; }
-    .left{ flex:1 1 620px; }
-    .right{ flex:1 1 260px; }
-    p.lead{ color:var(--muted); margin-top:4px }
-
-    .question{ margin:18px 0 12px; font-weight:600; }
-    fieldset{ border:1px solid #33415566; border-radius:14px; padding:14px 14px 10px; margin:0 0 18px; }
-    label.choice{ display:block; padding:10px 12px; border-radius:10px; cursor:pointer; border:1px solid transparent; }
-    label.choice:hover{ background:#111827; border-color:#33415580; }
-    input[type="radio"]{ accent-color:var(--accent); margin-right:10px; }
-
-    .controls{ display:flex; gap:10px; flex-wrap:wrap; margin-top:8px; }
-    button{ background:linear-gradient(135deg,var(--accent),var(--accent-2)); color:white; border:none; padding:12px 16px; border-radius:12px; font-weight:700; cursor:pointer; box-shadow:0 8px 24px #0008; }
-    button.secondary{ background:#0b1220; border:1px solid #33415580; color:var(--text); }
-    button:disabled{ opacity:.6; cursor:not-allowed }
-
-    .result{ margin-top:18px; padding:14px; border-radius:12px; border:1px solid #33415580; background:#0b1220; }
-    .score{ font-size:1.2rem; font-weight:800; }
-    .explain{ color:var(--muted); margin-top:8px; }
-
-    .correct{ outline:2px solid color-mix(in oklab, var(--good) 70%, #ffffff 10%); background:#052e16; }
-    .incorrect{ outline:2px solid color-mix(in oklab, var(--bad) 70%, #ffffff 10%); background:#3b0d0d; }
-    .key{ color:#a7f3d0; }
-    .footer{ color:var(--muted); font-size:.9rem; margin-top:18px; text-align:center; }
-    .badge{ background:#0f766e33; border:1px solid #0d948833; padding:4px 8px; border-radius:999px; font-size:.8rem; }
-    .hidden{ display:none }
+    :root{--bg:#0f172a;--card:#0b1220;--accent:#06b6d4;--muted:#94a3b8;--glass: rgba(255,255,255,0.03)}
+    body{font-family:Inter,InterVar,system-ui,Segoe UI,Roboto,Helvetica,Arial; background:linear-gradient(180deg,#071024 0%, #0b1220 100%); color:#e6eef6; padding:24px}
+    .app{max-width:1100px;margin:0 auto;display:grid;grid-template-columns:280px 1fr;gap:20px}
+    .card{background:var(--card);border-radius:12px;padding:16px;box-shadow:0 6px 18px rgba(2,6,23,0.6)}
+    h2{font-size:18px;margin:6px 0 12px}
+    button{background:var(--accent);border:none;color:#042038;padding:8px 12px;border-radius:8px;cursor:pointer}
+    input,select,textarea{width:100%;padding:8px;border-radius:8px;border:1px solid rgba(255,255,255,0.06);background:transparent;color:inherit}
+    .participants{max-height:520px;overflow:auto;margin-top:8px}
+    .participant{padding:8px;border-radius:8px;display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;background:var(--glass)}
+    .participant.active{outline:2px solid rgba(6,182,212,0.12)}
+    .controls{display:flex;gap:8px;flex-wrap:wrap}
+    .quiz-area{min-height:600px}
+    .question{margin-bottom:18px;padding:12px;background:linear-gradient(180deg, rgba(255,255,255,0.02), transparent);border-radius:8px}
+    .answers{display:flex;flex-direction:column;gap:8px;margin-top:8px}
+    .answer{display:flex;gap:10px;align-items:center}
+    label{cursor:pointer}
+    table{width:100%;border-collapse:collapse}
+    th,td{padding:8px;border-bottom:1px solid rgba(255,255,255,0.03);text-align:left}
+    .summary{margin-top:12px}
+    .small{font-size:13px;color:var(--muted)}
+    .topbar{display:flex;justify-content:space-between;align-items:center;margin-bottom:12px}
   </style>
 </head>
 <body>
-  <div class="container">
-    <header>
-      <div class="logo" aria-hidden="true"></div>
-      <div>
-        <h1>OOP Concepts Quiz</h1>
-        <p class="lead">Test your knowledge of Object-Oriented Programming: classes, objects, encapsulation, inheritance, polymorphism, abstraction, and more.</p>
+  <div class="app">
+    <div class="card">
+      <div class="topbar">
+        <div>
+          <h2>Participants</h2>
+          <div class="small">Add, select and manage participants (supports 10+)</div>
+        </div>
+        <div>
+          <button id="btnAdd">+ Add</button>
+        </div>
       </div>
-    </header>
 
-    <div class="row">
-      <section class="left panel">
-        <form id="quiz"></form>
-        <div class="controls">
-          <button id="submitBtn" type="button">Submit Answers</button>
-          <button id="retryBtn" class="secondary" type="button">Reset</button>
-          <span id="status" class="badge" aria-live="polite"></span>
-        </div>
-        <div id="result" class="result hidden" role="status"></div>
-      </section>
+      <div style="margin-top:10px;display:flex;gap:8px">
+        <input id="participantName" placeholder="Participant name (e.g. Alice)" />
+        <button id="btnAddInline">Add</button>
+      </div>
 
-      <aside class="right panel">
-        <h3 style="margin:6px 0 8px">Quiz Settings</h3>
-        <div style="color:var(--muted); font-size:.95rem">
-          <p>• <strong>10 questions</strong>, single-answer, mixed difficulty.</p>
-          <p>• Score shows explanations and the correct answers.</p>
-          <p>• Click <em>Reset</em> to try again (questions are reshuffled).</p>
-        </div>
-      </aside>
+      <div class="participants" id="participantsList"></div>
+
+      <div style="margin-top:12px">
+        <button id="btnExportAll">Export All Reports (single PDF)</button>
+        <div class="small" style="margin-top:8px">After each participant completes the quiz you can generate an individual PDF or export all reports as a single PDF (one page per person).</div>
+      </div>
     </div>
 
-    <p class="footer">Built for beginners &middot; Works offline in any modern browser.</p>
+    <div class="card quiz-area">
+      <div class="topbar">
+        <div>
+          <h2>Java OOP Quiz</h2>
+          <div class="small">10 multiple-choice questions on Object-Oriented Programming (Java). Select a participant to begin.</div>
+        </div>
+        <div class="controls">
+          <button id="btnReset">Reset Answers</button>
+          <button id="btnSubmit">Submit</button>
+          <button id="btnGenerate">Generate PDF</button>
+        </div>
+      </div>
+
+      <div id="quizContainer"></div>
+
+      <div class="summary card" style="margin-top:12px">
+        <h3>Session Summary</h3>
+        <div id="summaryTable"></div>
+      </div>
+    </div>
   </div>
 
+  <!-- jsPDF CDN -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+
   <script>
+    const { jsPDF } = window.jspdf;
+
+    // --- Questions: OOP in Java ---
     const QUESTIONS = [
-      {
-        q: "Which statement best describes a class in OOP?",
-        options: [
-          "A runtime copy of an object",
-          "A blueprint that defines properties and behaviors",
-          "A function that returns objects",
-          "A database table"
-        ],
-        answer: 1,
-        why: "A class is a blueprint/template for creating objects with state (fields) and behavior (methods)."
-      },
-      {
-        q: "What is encapsulation?",
-        options: [
-          "Combining data and methods that operate on the data",
-          "The ability of different classes to be treated as instances of the same superclass",
-          "Hiding implementation details while exposing a public interface",
-          "Reusing code from another class"
-        ],
-        answer: 0,
-        why: "Encapsulation bundles state and behavior, and typically restricts direct access via access modifiers."
-      },
-      {
-        q: "Which access modifier most strongly hides a field within its own class (in Java/C#)?",
-        options: ["public", "protected", "private", "internal"],
-        answer: 2,
-        why: "'private' limits visibility to the defining class, enforcing encapsulation."
-      },
-      {
-        q: "Inheritance allows a class to...",
-        options: [
-          "Define multiple constructors",
-          "Acquire fields and methods of another class",
-          "Contain only abstract methods",
-          "Run faster than procedural code"
-        ],
-        answer: 1,
-        why: "Inheritance enables a subclass to reuse and extend behavior of a superclass."
-      },
-      {
-        q: "Polymorphism primarily enables...",
-        options: [
-          "Multiple classes to share the same memory",
-          "Methods with the same name to behave differently based on the object type",
-          "One object to become two objects",
-          "Faster compilation"
-        ],
-        answer: 1,
-        why: "With dynamic dispatch, the method actually invoked depends on the runtime type (e.g., overriding)."
-      },
-      {
-        q: "Choose the best example of method overloading (not overriding).",
-        options: [
-          "A subclass redefines a method with the same signature",
-          "Two methods in the same class share a name but have different parameters",
-          "A method marked 'virtual' in the base class",
-          "Using an interface in place of a concrete type"
-        ],
-        answer: 1,
-        why: "Overloading = same name, different parameter lists in the same class."
-      },
-      {
-        q: "What is an abstract class typically used for?",
-        options: [
-          "To prevent inheritance",
-          "To provide a partially implemented base with abstract members",
-          "To store only static utility methods",
-          "To replace interfaces"
-        ],
-        answer: 1,
-        why: "Abstract classes can include implemented methods and abstract ones that must be implemented by subclasses."
-      },
-      {
-        q: "Composition vs. inheritance: which statement reflects composition?",
-        options: [
-          "Class Car extends Vehicle",
-          "Class Car implements Drivable",
-          "Class Car has-an Engine",
-          "Class Car overrides toString()"
-        ],
-        answer: 2,
-        why: "Composition models 'has-a' relationships by combining objects, often preferred for flexibility."
-      },
-      {
-        q: "Which option best defines an interface?",
-        options: [
-          "A concrete class with private fields",
-          "A contract that specifies methods without implementation",
-          "A class that cannot be instantiated",
-          "A namespace containing helper functions"
-        ],
-        answer: 1,
-        why: "Interfaces declare what must be done, not how; classes implement them."
-      },
-      {
-        q: "Which of the following is NOT a core OOP pillar?",
-        options: ["Encapsulation", "Recursion", "Inheritance", "Polymorphism"],
-        answer: 1,
-        why: "The common pillars are encapsulation, inheritance, polymorphism, and (often) abstraction."
-      }
+      { q: "Which concept allows a class to inherit fields and methods from another class?", a: ["Encapsulation", "Inheritance", "Polymorphism", "Abstraction"], correct: 1 },
+      { q: "Which OOP principle hides internal object details and exposes only necessary parts?", a: ["Polymorphism", "Inheritance", "Encapsulation", "Aggregation"], correct: 2 },
+      { q: "What is it called when a method has the same name but different parameters?", a: ["Method Overriding", "Method Overloading", "Encapsulation", "Abstraction"], correct: 1 },
+      { q: "Which keyword in Java is used to create a subclass?", a: ["super", "extends", "implements", "this"], correct: 1 },
+      { q: "What feature lets a subclass provide a specific implementation of a method declared in its superclass?", a: ["Overloading", "Overriding", "Polymorphism", "Abstraction"], correct: 1 },
+      { q: "Which of these is NOT a type of inheritance in Java?", a: ["Single", "Multiple (class)", "Multilevel", "Hierarchical"], correct: 1 },
+      { q: "Which access modifier allows visibility only within the same class?", a: ["public", "protected", "private", "default"], correct: 2 },
+      { q: "Which of these is an example of runtime polymorphism?", a: ["Method Overloading", "Method Overriding", "Constructor Overloading", "Operator Overloading"], correct: 1 },
+      { q: "An abstract class in Java:", a: ["Cannot have constructors", "Can be instantiated", "Can have abstract and concrete methods", "Must not have fields"], correct: 2 },
+      { q: "Interfaces in Java (post Java 8) can contain:", a: ["Only abstract methods", "Default and static methods", "Instance fields with initialization", "Constructors"], correct: 1 }
     ];
 
-    const quizEl = document.getElementById('quiz');
-    const submitBtn = document.getElementById('submitBtn');
-    const retryBtn = document.getElementById('retryBtn');
-    const resultEl = document.getElementById('result');
-    const statusEl = document.getElementById('status');
+    // State
+    let participants = []; // {id,name,answers:[],score:null,completedAt:null}
+    let activeId = null;
 
-    function shuffle(arr){
-      return arr.map(v=>[Math.random(),v]).sort((a,b)=>a[0]-b[0]).map(p=>p[1]);
+    // DOM
+    const participantsList = document.getElementById('participantsList');
+    const participantName = document.getElementById('participantName');
+    const btnAdd = document.getElementById('btnAdd');
+    const btnAddInline = document.getElementById('btnAddInline');
+    const quizContainer = document.getElementById('quizContainer');
+    const btnSubmit = document.getElementById('btnSubmit');
+    const btnReset = document.getElementById('btnReset');
+    const btnGenerate = document.getElementById('btnGenerate');
+    const btnExportAll = document.getElementById('btnExportAll');
+    const summaryTable = document.getElementById('summaryTable');
+
+    // Helpers
+    function uid(){return Math.random().toString(36).slice(2,9)}
+
+    function saveState(){
+      localStorage.setItem('oop_quiz_participants', JSON.stringify(participants));
+    }
+    function loadState(){
+      const raw = localStorage.getItem('oop_quiz_participants');
+      if(raw){participants = JSON.parse(raw)}
     }
 
-    function render(){
-      resultEl.classList.add('hidden');
-      resultEl.innerHTML = '';
-      statusEl.textContent = '';
-      quizEl.innerHTML = '';
-      // Shuffle questions on each render
-      const qs = shuffle([...QUESTIONS]).slice(0,10);
-      quizEl.dataset.order = JSON.stringify(qs.map((_,i)=>i));
-
-      qs.forEach((item, idx)=>{
-        const fs = document.createElement('fieldset');
-        fs.dataset.index = idx;
-        const q = document.createElement('div');
-        q.className = 'question';
-        q.textContent = `${idx+1}. ${item.q}`;
-        fs.appendChild(q);
-        item.options.forEach((opt, oi)=>{
-          const id = `q${idx}_o${oi}`;
-          const label = document.createElement('label');
-          label.className = 'choice';
-          label.setAttribute('for', id);
-          label.innerHTML = `<input type="radio" name="q${idx}" id="${id}" value="${oi}" /> ${opt}`;
-          fs.appendChild(label);
-        });
-        quizEl.appendChild(fs);
+    function renderParticipants(){
+      participantsList.innerHTML = '';
+      participants.forEach(p=>{
+        const div = document.createElement('div');
+        div.className = 'participant'+(p.id===activeId? ' active':'');
+        div.innerHTML = `<div style="flex:1">${escapeHtml(p.name)}<div class='small'>${p.completedAt? 'Score: '+p.score+' • '+new Date(p.completedAt).toLocaleString() : 'Not completed'}</div></div>
+          <div style='display:flex;gap:8px'>
+            <button data-id='${p.id}' class='btnSelect'>Open</button>
+            <button data-id='${p.id}' class='btnPDF'>PDF</button>
+            <button data-id='${p.id}' class='btnDelete'>✖</button>
+          </div>`;
+        participantsList.appendChild(div);
       });
 
-      // Attach dataset of the actual questions used, so we can score later
-      quizEl._qs = qs;
+      // attach events
+      document.querySelectorAll('.btnSelect').forEach(b=>b.onclick = ()=>{activeId = b.dataset.id; renderParticipants(); renderQuiz();});
+      document.querySelectorAll('.btnPDF').forEach(b=>b.onclick = ()=>{generatePdfForParticipant(b.dataset.id)});
+      document.querySelectorAll('.btnDelete').forEach(b=>{ b.onclick=()=>{ if(confirm('Delete participant?')){ participants = participants.filter(x=>x.id!==b.dataset.id); if(activeId===b.dataset.id) activeId=null; saveState(); renderParticipants(); renderQuiz(); updateSummary(); } } });
     }
 
-    function score(){
-      const qs = quizEl._qs;
-      if(!qs) return;
-      let correct = 0; let answered = 0;
+    function createParticipant(name){
+      const p = {id:uid(), name: name||('Participant '+(participants.length+1)), answers: Array(QUESTIONS.length).fill(null), score: null, completedAt: null};
+      participants.push(p);
+      saveState();
+      return p;
+    }
 
-      [...quizEl.querySelectorAll('fieldset')].forEach((fs, idx)=>{
-        const chosen = quizEl.querySelector(`input[name="q${idx}"]:checked`);
-        const radios = [...quizEl.querySelectorAll(`input[name="q${idx}"]`)];
-        if(chosen){ answered++; }
-        radios.forEach(r=>{
-          const label = r.closest('label');
-          label.classList.remove('correct','incorrect');
+    function renderQuiz(){
+      const p = participants.find(x=>x.id===activeId);
+      if(!p){
+        quizContainer.innerHTML = '<div class="small">Select a participant from the left or add a new participant to start the quiz.</div>';
+        return;
+      }
+      let html = `<h3>Taking quiz: ${escapeHtml(p.name)}</h3>`;
+      html += `<div class='small'>Answer the questions and click Submit. You can reset answers before submitting.</div><form id='quizForm'>`;
+      QUESTIONS.forEach((q,i)=>{
+        html += `<div class='question'>
+          <div><strong>Q${i+1}.</strong> ${escapeHtml(q.q)}</div>
+          <div class='answers'>`;
+        q.a.forEach((opt,j)=>{
+          const checked = p.answers[i]===j ? 'checked' : '';
+          html += `<label class='answer'><input type='radio' name='q${i}' value='${j}' ${checked} /> <span>${escapeHtml(opt)}</span></label>`;
         });
-        const ansIndex = qs[idx].answer;
-        if(chosen){
-          const chosenLabel = chosen.closest('label');
-          if(+chosen.value === ansIndex){
-            chosenLabel.classList.add('correct');
-            correct++;
-          } else {
-            chosenLabel.classList.add('incorrect');
-          }
+        html += `</div></div>`;
+      });
+      html += `</form>`;
+      quizContainer.innerHTML = html;
+
+      // wire up change
+      document.querySelectorAll('#quizForm input[type="radio"]').forEach(r=>{
+        r.onchange = (e)=>{
+          const name = e.target.name; const qi = parseInt(name.slice(1));
+          participants = participants.map(pp=>{ if(pp.id===activeId){ pp.answers[qi] = parseInt(e.target.value); pp.score = null; } return pp });
+          saveState(); renderParticipants();
         }
-        // Highlight the correct one lightly
-        const correctInput = quizEl.querySelector(`#q${idx}_o${ansIndex}`);
-        if(correctInput){ correctInput.closest('label').classList.add('key'); }
       });
-
-      statusEl.textContent = answered < qs.length ? `${answered}/${qs.length} answered` : 'All answered';
-
-      const pct = Math.round((correct / qs.length) * 100);
-      resultEl.classList.remove('hidden');
-      resultEl.innerHTML = `
-        <div class="score">Score: ${correct}/${qs.length} (${pct}%)</div>
-        <div class="explain">Review the highlights: <span style="color:var(--good)">green</span> = correct selection, <span style="color:var(--bad)">red</span> = wrong selection, and mint text marks the correct option.</div>
-      `;
-      window.scrollTo({top:0, behavior:'smooth'});
     }
 
-    submitBtn.addEventListener('click', score);
-    retryBtn.addEventListener('click', render);
+    // submit scoring
+    function submitActive(){
+      const p = participants.find(x=>x.id===activeId);
+      if(!p){ alert('Select a participant first'); return; }
+      // check all answered
+      let unanswered = p.answers.reduce((s,v,i)=> v===null? s.concat(i+1) : s, []);
+      if(unanswered.length){ if(!confirm('Some questions are unanswered: '+unanswered.join(', ') +'. Submit anyway?')) return; }
 
-    render();
+      let score = 0;
+      p.answers.forEach((ans,i)=>{ if(ans===QUESTIONS[i].correct) score++; });
+      p.score = score + '/' + QUESTIONS.length;
+      p.completedAt = new Date().toISOString();
+      saveState(); renderParticipants(); renderQuiz(); updateSummary();
+      alert('Submitted. Score: '+p.score);
+    }
+
+    function resetActive(){
+      const p = participants.find(x=>x.id===activeId);
+      if(!p) return; if(!confirm('Reset answers for '+p.name+'?')) return;
+      p.answers = Array(QUESTIONS.length).fill(null); p.score=null; p.completedAt=null; saveState(); renderQuiz(); renderParticipants(); updateSummary();
+    }
+
+    function updateSummary(){
+      if(participants.length===0){ summaryTable.innerHTML = '<div class="small">No participants yet.</div>'; return; }
+      let html = '<table><thead><tr><th>Name</th><th>Score</th><th>Completed</th></tr></thead><tbody>';
+      participants.forEach(p=>{
+        html += `<tr><td>${escapeHtml(p.name)}</td><td>${p.score||'-'}</td><td>${p.completedAt? new Date(p.completedAt).toLocaleString() : '-'}</td></tr>`;
+      });
+      html += '</tbody></table>';
+      summaryTable.innerHTML = html;
+    }
+
+    // PDF generation
+    function generatePdfForParticipant(id){
+      const p = participants.find(x=>x.id===id);
+      if(!p){ alert('Participant not found'); return; }
+      const doc = new jsPDF({unit:'pt',format:'a4'});
+      addParticipantPage(doc,p,0);
+      doc.save(`${sanitizeFilename(p.name)}-OOP-Report.pdf`);
+    }
+
+    function exportAllAsSinglePdf(){
+      if(participants.length===0){ alert('No participants'); return; }
+      const doc = new jsPDF({unit:'pt',format:'a4'});
+      participants.forEach((p,i)=>{ if(i>0) doc.addPage(); addParticipantPage(doc,p,i); });
+      doc.save(`OOP-Quiz-Reports.pdf`);
+    }
+
+    function addParticipantPage(doc,p,index){
+      const margin = 40; let y = 40;
+      doc.setFontSize(18); doc.text('Java OOP Quiz Report', margin, y); y+=28;
+      doc.setFontSize(12); doc.text('Name: ' + p.name, margin, y); y+=18;
+      doc.text('Completed: ' + (p.completedAt? new Date(p.completedAt).toLocaleString() : 'Not completed'), margin, y); y+=18;
+      doc.text('Score: ' + (p.score||'-'), margin, y); y+=22;
+
+      doc.setFontSize(11);
+      QUESTIONS.forEach((q,i)=>{
+        const userAns = p.answers[i];
+        const correctIdx = QUESTIONS[i].correct;
+        const status = (userAns===null)? 'Unanswered' : (userAns===correctIdx? 'Correct' : 'Incorrect');
+        // Question
+        const qText = `Q${i+1}. ${q.q}`;
+        const split = doc.splitTextToSize(qText, 520);
+        doc.text(split, margin, y); y += split.length*14;
+        // Answers
+        q.a.forEach((opt,j)=>{
+          const mark = (j===correctIdx)? '✓' : (j===userAns? '→' : ' ');
+          const ansLine = `   ${mark} ${opt}`;
+          const split2 = doc.splitTextToSize(ansLine, 520);
+          doc.text(split2, margin, y); y += split2.length*12;
+        });
+        doc.text('Result: ' + status, margin, y); y+=18;
+
+        if(y > 740){ doc.addPage(); y = 40; }
+      });
+
+      doc.setFontSize(9); doc.text('Generated: ' + new Date().toLocaleString(), margin, 780);
+    }
+
+    // Utilities
+    function sanitizeFilename(s){ return s.replace(/[^a-z0-9_\- ]/gi,'').replace(/\s+/g,'_') }
+    function escapeHtml(unsafe){ return unsafe.replace(/[&<>"']/g, function(m){ return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":"&#039;"}[m]; }); }
+
+    // Events
+    btnAdd.onclick = ()=>{ const name = prompt('Enter participant name'); if(name){ const p = createParticipant(name); activeId = p.id; renderParticipants(); renderQuiz(); updateSummary(); } };
+    btnAddInline.onclick = ()=>{ const name = participantName.value.trim() || null; const p = createParticipant(name); participantName.value=''; activeId = p.id; renderParticipants(); renderQuiz(); updateSummary(); };
+    btnSubmit.onclick = submitActive;
+    btnReset.onclick = resetActive;
+    btnGenerate.onclick = ()=>{ if(!activeId) return alert('Select a participant'); generatePdfForParticipant(activeId); };
+    btnExportAll.onclick = exportAllAsSinglePdf;
+
+    // load
+    loadState(); renderParticipants(); renderQuiz(); updateSummary();
+
+    // For first use - if no participants, create 10 sample slots
+    if(participants.length===0){ for(let i=1;i<=10;i++) createParticipant('Participant '+i); saveState(); renderParticipants(); }
   </script>
 </body>
 </html>
